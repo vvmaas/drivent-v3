@@ -24,15 +24,22 @@ export async function getHotels(req: AuthenticatedRequest, res: Response) {
 
 export async function getHotelRooms(req: AuthenticatedRequest, res: Response) {
   const { hotelId } = req.params;
+  const { userId } = req;
 
   const id = Number(hotelId);
 
   try {
+    const ticket = await ticketService.getTicketByUserId(userId);
+
+    if(!ticket || ticket.TicketType.isRemote === true || ticket.TicketType.includesHotel === false || ticket.status === "RESERVED") {
+      return res.sendStatus(httpStatus.BAD_REQUEST);
+    }
+
     if (!hotelId || isNaN(id)) {
       return res.sendStatus(httpStatus.BAD_REQUEST);
     }
 
-    const rooms = hotelsService.getHotelRooms(id);
+    const rooms = await hotelsService.getHotelRooms(id);
 
     return res.status(httpStatus.OK).send(rooms);
   } catch (error) {
