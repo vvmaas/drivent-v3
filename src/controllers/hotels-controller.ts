@@ -14,7 +14,7 @@ export async function getHotels(req: AuthenticatedRequest, res: Response) {
       return res.sendStatus(httpStatus.BAD_REQUEST);
     }
 
-    const hotels = hotelsService.getHotels();
+    const hotels = await hotelsService.getHotels();
 
     return res.status(httpStatus.OK).send(hotels);
   } catch (error) {
@@ -28,11 +28,11 @@ export async function getHotelRooms(req: AuthenticatedRequest, res: Response) {
   const id = Number(hotelId);
 
   try {
-    if (!hotelId) {
+    if (!hotelId || isNaN(id)) {
       return res.sendStatus(httpStatus.BAD_REQUEST);
     }
 
-    const rooms = hotelsService.getHotel(id);
+    const rooms = hotelsService.getHotelRooms(id);
 
     return res.status(httpStatus.OK).send(rooms);
   } catch (error) {

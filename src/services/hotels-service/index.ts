@@ -10,7 +10,7 @@ async function getHotels() {
   return hotels;
 }
 
-async function getHotel(id: number) {
+async function getHotelRooms(id: number) {
   const hotel = await hotelsRepository.getHotelById(id);
     
   if (!hotel) {
@@ -21,7 +21,7 @@ async function getHotel(id: number) {
 
 const hotelsService = { 
   getHotels,
-  getHotel
+  getHotelRooms,
 };
 
 export default hotelsService;
