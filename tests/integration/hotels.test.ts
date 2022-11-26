@@ -60,7 +60,7 @@ describe("GET /hotels", () => {
       expect(response.status).toEqual(httpStatus.NOT_FOUND);
     });
 
-    it("should respond with status 400 if ticketType don't include hotel", async () => {
+    it("should respond with status 404 if ticketType don't include hotel", async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const enrollment = await createEnrollmentWithAddress(user);
@@ -69,7 +69,7 @@ describe("GET /hotels", () => {
   
       const response = await server.get("/hotels").set("Authorization", `Bearer ${token}`);
   
-      expect(response.status).toBe(httpStatus.BAD_REQUEST);
+      expect(response.status).toBe(httpStatus.NOT_FOUND);
     });
 
     it("should respond with empty array when there are no hotels", async () => {
@@ -152,7 +152,7 @@ describe("GET /hotels/:hotelId", () => {
       expect(response.status).toEqual(httpStatus.NOT_FOUND);
     });
 
-    it("should respond with status 400 if ticketType don't include hotel", async () => {
+    it("should respond with status 404 if ticketType don't include hotel", async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
       const enrollment = await createEnrollmentWithAddress(user);
@@ -161,7 +161,7 @@ describe("GET /hotels/:hotelId", () => {
   
       const response = await server.get("/hotels/1").set("Authorization", `Bearer ${token}`);
   
-      expect(response.status).toBe(httpStatus.BAD_REQUEST);
+      expect(response.status).toBe(httpStatus.NOT_FOUND);
     });
 
     it("should respond with status 400 if hotelId is invalid", async () => {
